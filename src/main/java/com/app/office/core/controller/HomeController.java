@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping(value = {"", "**/{path:[^\\.]+}"})
+    @GetMapping({"", "**/{path:[^\\.]+}"})
     public String getHome() {
         return "index";
+    }
+
+    @GetMapping("/about")
+    public String getAbout() {
+        return "about";
     }
 }
