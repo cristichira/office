@@ -18,6 +18,9 @@
 *.ipr
 /out/
 
+# Local dev properties
+*-local.properties
+
 ### NetBeans ###
 /nbproject/private/
 /build/
