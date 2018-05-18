@@ -68,9 +68,11 @@ tasks.withType(Javadoc) {
 
 libSassParameters {
 	inputFilePath = "static/scss/office-application.scss"
-	outputFilePath = "$buildDir/resources/static/css/office-application.css"
+	outputFilePath = "$projectDir/src/main/resources/static/css/office-application.css"
 	watchedDirectoryPath = "static/scss"
 	sourceMapEmbed = true
 }
 
 //build.finalizedBy compileLibSass
+//to make the css load, you need to run the compileLibSass and then run the app
+build.dependsOn compileLibSass
