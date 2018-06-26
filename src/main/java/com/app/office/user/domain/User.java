@@ -1,8 +1,6 @@
 package com.app.office.user.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -11,6 +9,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
     public Long getId() {

@@ -35,7 +35,7 @@ repositories {
 dependencies {
     //database related
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('mysql:mysql-connector-java:5.1.6')
+    compile('mysql:mysql-connector-java:8.0.11')
 
     //mapstruct
     compile('org.mapstruct:mapstruct-jdk8:1.2.0.Final')
@@ -48,6 +48,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.webjars:bootstrap:4.1.0')
     compile('org.webjars:jquery:3.1.1')
+	compile("org.springframework.boot:spring-boot-devtools")
 
     //testing
     testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -68,9 +69,11 @@ tasks.withType(Javadoc) {
 
 libSassParameters {
 	inputFilePath = "static/scss/office-application.scss"
-	outputFilePath = "$buildDir/resources/static/css/office-application.css"
+	outputFilePath = "$projectDir/src/main/resources/static/css/office-application.css"
 	watchedDirectoryPath = "static/scss"
 	sourceMapEmbed = true
 }
 
 //build.finalizedBy compileLibSass
+//to make the css load, you need to run the compileLibSass and then run the app
+build.dependsOn compileLibSass
