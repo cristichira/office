@@ -1,4 +1,4 @@
-package com.app.office.user.domain;
+package com.app.office.user.api.enumeration;
 
 public enum UserRole {
     USER,

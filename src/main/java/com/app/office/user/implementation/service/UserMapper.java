@@ -1,7 +1,7 @@
-package com.app.office.user.service.impl;
+package com.app.office.user.implementation.service;
 
 import com.app.office.user.domain.User;
-import com.app.office.user.dto.UserDTO;
+import com.app.office.user.api.dto.UserDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

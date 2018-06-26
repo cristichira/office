@@ -1,6 +1,6 @@
-package com.app.office.user.dto;
+package com.app.office.user.api.dto;
 
-import com.app.office.user.domain.UserRole;
+import com.app.office.user.api.enumeration.UserRole;
 
 public class UserDTO {
     private Long id;

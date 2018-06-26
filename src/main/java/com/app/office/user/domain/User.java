@@ -1,5 +1,7 @@
 package com.app.office.user.domain;
 
+import com.app.office.user.api.enumeration.UserRole;
+
 import javax.persistence.*;
 
 @Entity

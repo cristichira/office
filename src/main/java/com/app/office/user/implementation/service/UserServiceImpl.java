@@ -1,6 +1,6 @@
-package com.app.office.user.service.impl;
+package com.app.office.user.implementation.service;
 
-import com.app.office.user.service.UserService;
+import com.app.office.user.api.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
