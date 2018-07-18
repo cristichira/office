@@ -1,25 +1,29 @@
 package com.app.office.user.domain;
 
+import com.app.office.shared.domain.EntityObject;
+import com.app.office.shared.domain.INameIdEntity;
 import com.app.office.user.api.enumeration.UserRole;
 
 import javax.persistence.*;
 
 @Entity
-public class User {
-    @Id
-    @GeneratedValue
-    private Long id;
+@Table(name = "oapp_user", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_user_name", columnNames = "username")
+})
+public class User extends EntityObject implements INameIdEntity {
     private String username;
     private String password;
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
-    public Long getId() {
-        return id;
+    @Override
+    public String getName() {
+        return username;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public void setName(String name) {
+        this.username = name;
     }
 
     public String getUsername() {

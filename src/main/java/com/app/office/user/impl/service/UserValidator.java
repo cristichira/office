@@ -1,4 +1,4 @@
-package com.app.office.user.implementation.service;
+package com.app.office.user.impl.service;
 
 import org.springframework.stereotype.Component;
 

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}" />
+        <link rel="stylesheet" th:href="@{/css/office-application.css}" />
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">LAYOUT TITLE</title>
+    </head>
+    <body>
+        <div th:replace="layout/menu :: menu"></div>
 
-<head th:replace="layout/head :: head">
-    <title>Header</title>
-</head>
+        <div layout:fragment="content"></div>
 
-<body>
+        <div th:replace="layout/footer :: footer"></div>
 
-<div th:replace="layout/menu :: menu"></div>
-
-
-<div layout:fragment="content"></div>
-
-<div th:replace="layout/footer :: footer"></div>
-</body>
-
+        <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+    </body>
 </html>

@@ -1,6 +1,7 @@
 package com.app.office.user.api.enumeration;
 
 public enum UserRole {
-    USER,
+    END_CUSTOMER,
+    CONTRACTOR,
     ADMINISTRATOR
 }
