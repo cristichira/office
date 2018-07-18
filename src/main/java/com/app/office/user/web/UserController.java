@@ -1,4 +1,4 @@
-package com.app.office.user.web.controller;
+package com.app.office.user.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

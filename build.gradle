@@ -54,6 +54,15 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+//so that generated mapstruct implementations will be considered valid beans
+sourceSets {
+	main {
+		java {
+			srcDir "${buildDir.absolutePath}/generated/source/apt/main"
+		}
+	}
+}
+
 tasks.withType(JavaCompile) {
 	options.compilerArgs = [
 			'-Amapstruct.defaultComponentModel=spring',
