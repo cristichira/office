@@ -21,7 +21,7 @@ public class User extends EntityObject implements INameIdEntity {
         return username;
     }
 
-    public String getName3() {
+    public String getName5() {
         return username;
     }
 
