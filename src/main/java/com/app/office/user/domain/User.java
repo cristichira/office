@@ -21,6 +21,10 @@ public class User extends EntityObject implements INameIdEntity {
         return username;
     }
 
+    public String getName5() {
+        return username;
+    }
+
     @Override
     public void setName(String name) {
         this.username = name;
