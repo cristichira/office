@@ -1,12 +1,23 @@
 package com.app.office.user.api.dto;
 
+import com.app.office.shared.api.dto.NameIdDTO;
 import com.app.office.user.api.enumeration.UserRole;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDTO {
     private Long id;
-    private String username;
+    private String email;
     private String password;
-    private UserRole role;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String mobilePhone;
+    private boolean emailConfirmed = false;
+    private boolean adminConfirmed = false;
+    private NameIdDTO manager;
+    private List<UserRole> roles = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -16,12 +27,12 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -32,11 +43,67 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserRole getRole() {
-        return role;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public boolean isAdminConfirmed() {
+        return adminConfirmed;
+    }
+
+    public void setAdminConfirmed(boolean adminConfirmed) {
+        this.adminConfirmed = adminConfirmed;
+    }
+
+    public NameIdDTO getManager() {
+        return manager;
+    }
+
+    public void setManager(NameIdDTO manager) {
+        this.manager = manager;
+    }
+
+    public List<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
     }
 }

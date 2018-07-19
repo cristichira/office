@@ -1,35 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
 <head>
-    <title>asa da</title>
+    <title>Register</title>
 </head>
-
 <body>
-
 <div layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h3>List of existing users</h3>
+        </div>
 
-
-    <h1>Title</h1>
-
-    <h2>Section</h2>
-
-    <p>Lorem ipsum dolor sit amet, eu in mollis morbi nunc nulla
-        metus, ipsum etiam dictum natoque nec eleifend. Congue nec porttitor,
-        ullamcorper neque eu posuere tristique arcu, feugiat magna quam
-        tristique nonummy diam torquent, venenatis ut, fugit suspendisse quis
-        nec.</p>
-
-    <h3>Sub-Section</h3>
-
-    <p>Lorem ipsum dolor sit amet, eu in mollis morbi nunc nulla
-        metus, ipsum etiam dictum natoque nec eleifend. Congue nec porttitor,
-        ullamcorper neque eu posuere tristique arcu, feugiat magna quam
-        tristique nonummy diam torquent, venenatis ut, fugit suspendisse quis
-        nec.</p>
-
-    <button class="btn btn-warning">Button testing</button>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${users.isEmpty()}">
+                <td colspan="4">no users</td>
+            </tr>
+            <tr th:unless="${users.isEmpty()}" th:each="user : ${users}">
+                <td>[[${user.id}]]</td>
+                <td>[[${user.email}]]</td>
+                <td>[[${user.password}]]</td>
+                <td>
+                    <th:block th:each="role, iterStat : ${user.roles}">
+                        <span>[[${role}]][[!${iterStat.last} ? ',' : '.']]</span>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 </body>
 </html>

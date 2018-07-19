@@ -26,9 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUsername(String username) {
-        return userRepository.findByUsername(username).map(userMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("Cannot find user with username: " + username));
+    public UserDTO findByEmail(String email) {
+        return userRepository.findByEmail(email).map(userMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find user with email: " + email));
     }
 
     @Override
