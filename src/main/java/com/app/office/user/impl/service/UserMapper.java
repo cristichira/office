@@ -20,6 +20,7 @@ public abstract class UserMapper {
 
     @Mapping(target = "managerId", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     abstract User toEntity(UserDTO userDTO, @MappingTarget User user);
 
     @AfterMapping

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,13 +35,40 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping(BASE_URL + "/profile")
-    public ModelAndView getProfile(ModelAndView mav) {
+    @GetMapping(BASE_URL + "/{id}/profile")
+    public ModelAndView getProfile(@PathVariable("id") Long userId, ModelAndView mav) {
+        UserDTO currentUser = userService.findById(userId);
+
+        mav.addObject("user", currentUser);
+        mav.setViewName("user/profile");
+        return mav;
+    }
+
+    @GetMapping("/profile")
+    public ModelAndView getMyProfile(ModelAndView mav) {
         UserDTO currentUser = userService.getCurrentUser();
 
         mav.addObject("user", currentUser);
         mav.setViewName("user/profile");
         return mav;
+    }
+
+    @GetMapping(BASE_URL + "/{id}/edit")
+    public ModelAndView getEdit(@PathVariable("id") Long userId, ModelAndView mav) {
+        UserDTO userDTO = userService.findById(userId);
+        UserCommand userCommand = userCommandFromUserDTO(userDTO);
+
+        mav.addObject("user", userCommand);
+        mav.setViewName("user/edit");
+        return mav;
+    }
+
+    @PostMapping(BASE_URL + "/update")
+    public String update(UserCommand userCommand) {
+        UserDTO userDTO = userDTOFromEditCommand(userCommand);
+        Long userId = userService.save(userDTO);
+
+        return "redirect:/user/" + userId + "/profile";
     }
 
     @GetMapping("/register")
@@ -66,6 +94,10 @@ public class UserController {
         private String email;
         private String password;
         private String passwordConfirm;
+        private String firstName;
+        private String lastName;
+        private String phone;
+        private String mobilePhone;
 
         public Long getId() {
             return id;
@@ -98,14 +130,70 @@ public class UserController {
         public void setPasswordConfirm(String passwordConfirm) {
             this.passwordConfirm = passwordConfirm;
         }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getMobilePhone() {
+            return mobilePhone;
+        }
+
+        public void setMobilePhone(String mobilePhone) {
+            this.mobilePhone = mobilePhone;
+        }
     }
 
     private UserDTO userDTOFromRegisterCommand(UserCommand userCommand) {
         final UserDTO userDTO = new UserDTO();
-        userDTO.setId(userCommand.getId());
         userDTO.setEmail(userCommand.getEmail());
         userDTO.setPassword(userCommand.getPassword());
 
         return userDTO;
+    }
+
+    private UserDTO userDTOFromEditCommand(UserCommand userCommand) {
+        final UserDTO userDTO = new UserDTO();
+        userDTO.setId(userCommand.getId());
+        userDTO.setEmail(userCommand.getEmail());
+        userDTO.setPassword(userCommand.getPassword());
+        userDTO.setFirstName(userCommand.getFirstName());
+        userDTO.setLastName(userCommand.getLastName());
+        userDTO.setPhone(userCommand.getPhone());
+        userDTO.setMobilePhone(userCommand.getMobilePhone());
+
+        return userDTO;
+    }
+
+    private UserCommand userCommandFromUserDTO(UserDTO userDTO) {
+        final UserCommand userCommand = new UserCommand();
+        userCommand.setId(userDTO.getId());
+        userCommand.setEmail(userDTO.getEmail());
+        userCommand.setFirstName(userDTO.getFirstName());
+        userCommand.setLastName(userDTO.getLastName());
+        userCommand.setPhone(userDTO.getPhone());
+        userCommand.setMobilePhone(userDTO.getMobilePhone());
+
+        return userCommand;
     }
 }

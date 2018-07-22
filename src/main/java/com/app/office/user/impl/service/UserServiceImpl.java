@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO getCurrentUser() {
+
         long currentUserId = securityService.getCurrentUser().getUserId();
         return findById(currentUserId);
     }
