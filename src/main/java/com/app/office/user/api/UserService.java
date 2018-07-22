@@ -1,8 +1,10 @@
 package com.app.office.user.api;
 
 import com.app.office.user.api.dto.UserDTO;
+import com.app.office.user.api.enumeration.UserRole;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
@@ -18,4 +20,6 @@ public interface UserService extends UserDetailsService {
     Long save(UserDTO userDTO);
 
     void delete(Long id);
+
+    void assignRoles(Long userId, Collection<UserRole> roles);
 }

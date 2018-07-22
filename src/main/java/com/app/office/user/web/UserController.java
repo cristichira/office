@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -83,7 +84,9 @@ public class UserController {
         UserDTO userDTO = userDTOFromRegisterCommand(userCommand);
         userDTO.getRoles().add(UserRole.END_CUSTOMER);
 
-        userService.save(userDTO);
+        Long userId = userService.save(userDTO);
+        userService.assignRoles(userId, Collections.singleton(UserRole.END_CUSTOMER));
+
         return "redirect:/login";
     }
 
