@@ -9,15 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
+    private static final String BASE_URL = "/user";
 
     private final UserService userService;
 
@@ -26,12 +25,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping(BASE_URL + "/list")
     public ModelAndView getList(ModelAndView mav) {
         List<UserDTO> users = userService.find();
 
         mav.addObject("users", users);
         mav.setViewName("user/list");
+        return mav;
+    }
+
+    @GetMapping(BASE_URL + "/profile")
+    public ModelAndView getProfile(ModelAndView mav) {
+        UserDTO currentUser = userService.getCurrentUser();
+
+        mav.addObject("user", currentUser);
+        mav.setViewName("user/profile");
         return mav;
     }
 
@@ -48,7 +56,7 @@ public class UserController {
         userDTO.getRoles().add(UserRole.END_CUSTOMER);
 
         userService.save(userDTO);
-        return "redirect:/user/list";
+        return "redirect:/login";
     }
 
     @ScriptAssert(lang = "javascript", script = "_this.password == _this.passwordConfirm",

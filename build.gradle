@@ -42,7 +42,9 @@ dependencies {
     compile('org.mapstruct:mapstruct-processor:1.2.0.Final')
     apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
-    //web related
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.2.2')
 	compile('org.springframework.boot:spring-boot-starter-web')
