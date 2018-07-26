@@ -4,6 +4,14 @@ public class NameIdDTO {
     private Long id;
     private String name;
 
+    public NameIdDTO() {
+    }
+
+    public NameIdDTO(String name, Long id) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
