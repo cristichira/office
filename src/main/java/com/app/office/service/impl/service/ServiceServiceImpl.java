@@ -2,6 +2,7 @@ package com.app.office.service.impl.service;
 
 import com.app.office.service.api.ServiceService;
 import com.app.office.service.api.dto.ServiceDTO;
+import com.app.office.service.api.dto.ServiceSearchDTO;
 import com.app.office.service.impl.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,8 +26,12 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public List<ServiceDTO> find() {
+    public List<ServiceDTO> find(ServiceSearchDTO serviceSearchDTO) {
         Specification<com.app.office.service.domain.Service> query = ServiceSpecification.unrestricted();
+
+        if (serviceSearchDTO.getOwnerId() != null) {
+            query = query.and(ServiceSpecification.ownerId(serviceSearchDTO.getOwnerId()));
+        }
         return serviceRepository.findAll(query).stream().map(serviceMapper::toDTO).collect(Collectors.toList());
     }
 

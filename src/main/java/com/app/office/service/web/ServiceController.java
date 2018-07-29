@@ -2,6 +2,7 @@ package com.app.office.service.web;
 
 import com.app.office.service.api.ServiceService;
 import com.app.office.service.api.dto.ServiceDTO;
+import com.app.office.service.api.dto.ServiceSearchDTO;
 import com.app.office.shared.api.dto.NameIdDTO;
 import com.app.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,22 @@ public class ServiceController {
     }
 
     @GetMapping(BASE_URL + "/list")
-    public ModelAndView getList(ModelAndView mav) {
-        List<ServiceDTO> services = serviceService.find();
+    public ModelAndView getList(ServiceSearchDTO serviceSearchDTO, ModelAndView mav) {
+        List<ServiceDTO> services = serviceService.find(serviceSearchDTO);
 
         mav.addObject("services", services);
-        mav.setViewName("");
+        mav.setViewName("service/list");
+        return mav;
+    }
+
+    @GetMapping(BASE_URL + "/my-list")
+    public ModelAndView getMyList(ServiceSearchDTO serviceSearchDTO, ModelAndView mav) {
+        serviceSearchDTO.setOwnerId(securityService.getCurrentUser().getUserId());
+
+        List<ServiceDTO> services = serviceService.find(serviceSearchDTO);
+
+        mav.addObject("services", services);
+        mav.setViewName("service/my-list");
         return mav;
     }
 
@@ -43,7 +55,7 @@ public class ServiceController {
         ServiceDTO serviceDTO = serviceService.findById(serviceId);
 
         mav.addObject("service", serviceDTO);
-        mav.setViewName("");
+        mav.setViewName("service/details");
         return mav;
     }
 
@@ -53,7 +65,7 @@ public class ServiceController {
         ServiceCommand serviceCommand = serviceCommandFromServiceDTO(serviceDTO);
 
         mav.addObject("service", serviceCommand);
-        mav.setViewName("");
+        mav.setViewName("service/create");
         return mav;
     }
 
@@ -63,19 +75,25 @@ public class ServiceController {
         serviceCommand.setOwnerId(securityService.getCurrentUser().getUserId());
 
         mav.addObject("service", serviceCommand);
-        mav.setViewName("");
+        mav.setViewName("service/create");
         return mav;
     }
 
-    @PostMapping(BASE_URL + "save")
+    @PostMapping(BASE_URL + "/save")
     public String save(@Valid @ModelAttribute(value = "service") ServiceCommand serviceCommand) {
 
         ServiceDTO serviceDTO = serviceCommand.getId() != null ? serviceService.findById(serviceCommand.getId())
                 : new ServiceDTO();
 
         updateServiceDTOFromServiceCommand(serviceCommand, serviceDTO);
-        Long savedId = serviceService.save(serviceDTO);
-        return "redirect:/service/" + savedId;
+        serviceService.save(serviceDTO);
+        return "redirect:/service/my-list";
+    }
+
+    @PostMapping(BASE_URL + "/{id}/delete")
+    public String delete(@PathVariable("id") Long serviceId) {
+        serviceService.delete(serviceId);
+        return "redirect:/service/my-list";
     }
 
     private static final class ServiceCommand {

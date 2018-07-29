@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>Create service</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="jumbotron">
+                    <h3>Create a new service</h3>
+                    <p>Create a new service for your business!</p>
+                </div>
+
+                <form th:action="${#mvc.url('SC#save').build()}" th:method="POST"
+                      th:object="${service}">
+                    <div class="form-group">
+                        <input type="hidden" th:field="*{id}">
+                        <input type="hidden" th:field="*{ownerId}">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="name"
+                               th:field="*{name}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

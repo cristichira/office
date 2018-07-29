@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>Service list</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h3>List of existing services</h3>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Created by</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${services.isEmpty()}">
+                <td colspan="4">no services</td>
+            </tr>
+            <tr th:unless="${services.isEmpty()}" th:each="service : ${services}">
+                <td>[[${service.id}]]</td>
+                <td>[[${service.name}]]</td>
+                <td><a th:href="${#mvc.url('UC#getProfile').arg(0, service.owner.id).build()}">[[${service.owner.name}]]</a></td>
+                <td><a th:href="${#mvc.url('SC#getDetails').arg(0, service.id).build()}" class="btn btn-primary">Details</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

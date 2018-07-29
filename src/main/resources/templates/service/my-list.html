@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>My service</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h3>List of my services</h3>
+        </div>
+
+        <a class="btn btn-primary" th:href="${#mvc.url('SC#getCreate').build()}">
+            Create a new service
+        </a>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${services.isEmpty()}">
+                <td colspan="3">no services</td>
+            </tr>
+            <tr th:unless="${services.isEmpty()}" th:each="service : ${services}">
+                <td>[[${service.id}]]</td>
+                <td>[[${service.name}]]</td>
+                <td class="form-inline">
+                    <a th:href="${#mvc.url('SC#getDetails').arg(0, service.id).build()}" class="btn btn-primary">Details</a>
+                    <a th:href="${#mvc.url('SC#getEdit').arg(0, service.id).build()}" class="btn btn-primary ml-1">Edit</a>
+                    <form class="ml-1" th:action="${#mvc.url('SC#delete').arg(0, service.id).build()}" th:method="POST">
+                        <button th:type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

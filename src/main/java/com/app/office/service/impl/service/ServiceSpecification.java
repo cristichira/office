@@ -8,4 +8,8 @@ public class ServiceSpecification {
     public static Specification<Service> unrestricted() {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.and();
     }
+
+    public static Specification<Service> ownerId(Long ownerId) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("ownerId"), ownerId);
+    }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>Service details</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="jumbotron">
+                    <h3>Service details</h3>
+                </div>
+
+                <a class="btn btn-primary" th:href="${#mvc.url('SC#getEdit').arg(0, service.id).build()}">
+                    Edit service
+                </a>
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 font-weight-light">Name</div>
+                        <div class="col-6">[[${service.name}]]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
