@@ -14,17 +14,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public abstract class UserMapper {
 
     @Mapping(target = "name", source = "email")
-    abstract NameIdDTO toNameIdDTO(User user);
+    public abstract NameIdDTO toNameIdDTO(User user);
 
-    abstract UserDTO toDTO(User user);
+    public abstract UserDTO toDTO(User user);
 
     @Mapping(target = "managerId", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
-    abstract User toEntity(UserDTO userDTO, @MappingTarget User user);
+    public abstract User toEntity(UserDTO userDTO, @MappingTarget User user);
 
     @AfterMapping
-    void afterMapToEntity(UserDTO userDTO, @MappingTarget User user) {
+    public void afterMapToEntity(UserDTO userDTO, @MappingTarget User user) {
         if (userDTO.getPassword() != null) {
             user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
         }
