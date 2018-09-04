@@ -29,6 +29,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" th:href="${#mvc.url('AC#listAsProvider').build()}">
+                            Clients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="${#mvc.url('AC#listAsClient').build()}">
+                            My Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/about}">About</a>
                     </li>
                 </ul>

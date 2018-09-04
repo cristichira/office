@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>Create appointment</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h3>Create a new appointment</h3>
+            <p>Schedule a new appointment for this service!</p>
+        </div>
+
+        <form th:action="${#mvc.url('AC#create').build()}" th:method="POST"
+              th:object="${appointment}">
+            <div class="form-group">
+                <input type="hidden" th:field="*{serviceId}">
+                <label for="date">Date</label>
+                <input type="text" class="form-control date-time-picker" id="date" th:field="*{date}">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

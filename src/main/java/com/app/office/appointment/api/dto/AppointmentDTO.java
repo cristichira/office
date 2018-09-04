@@ -10,7 +10,7 @@ public class AppointmentDTO {
     private NameIdDTO user;
     private NameIdDTO service;
     private Date createdDate;
-    private Date lastModifiedDate;
+    private Date scheduledDate;
     private AppointmentState state;
 
     public Long getId() {
@@ -45,12 +45,12 @@ public class AppointmentDTO {
         this.createdDate = createdDate;
     }
 
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
+    public Date getScheduledDate() {
+        return scheduledDate;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setScheduledDate(Date scheduledDate) {
+        this.scheduledDate = scheduledDate;
     }
 
     public AppointmentState getState() {

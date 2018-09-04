@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,5 +55,11 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public void delete(Long id) {
         serviceRepository.deleteById(id);
+    }
+
+    @Override
+    public Set<Long> findServiceIdsOfUserId(Long userId) {
+        Specification<com.app.office.service.domain.Service> query = ServiceSpecification.ownerId(userId);
+        return serviceRepository.findAll(query).stream().map(com.app.office.service.domain.Service::getId).collect(Collectors.toSet());
     }
 }

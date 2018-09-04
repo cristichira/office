@@ -50,6 +50,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.webjars:bootstrap:4.1.0')
     compile('org.webjars:jquery:3.1.1')
+//	https://eonasdan.github.io/bootstrap-datetimepicker/ - datetimepicker documentation
+    compile('org.webjars:bootstrap-datetimepicker:2.3.5')
 	compile("org.springframework.boot:spring-boot-devtools")
 
     //testing

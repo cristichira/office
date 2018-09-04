@@ -81,11 +81,7 @@ public class ServiceController {
 
     @PostMapping(BASE_URL + "/save")
     public String save(@Valid @ModelAttribute(value = "service") ServiceCommand serviceCommand) {
-
-        ServiceDTO serviceDTO = serviceCommand.getId() != null ? serviceService.findById(serviceCommand.getId())
-                : new ServiceDTO();
-
-        updateServiceDTOFromServiceCommand(serviceCommand, serviceDTO);
+        final ServiceDTO serviceDTO = serviceDTOFromServiceCommand(serviceCommand);
         serviceService.save(serviceDTO);
         return "redirect:/service/my-list";
     }
@@ -126,10 +122,12 @@ public class ServiceController {
         }
     }
 
-    private void updateServiceDTOFromServiceCommand(ServiceCommand serviceCommand, ServiceDTO serviceDTO) {
+    private ServiceDTO serviceDTOFromServiceCommand(ServiceCommand serviceCommand) {
+        final ServiceDTO serviceDTO = new ServiceDTO();
         serviceDTO.setId(serviceCommand.getId());
         serviceDTO.setName(serviceCommand.getName());
         serviceDTO.setOwner(new NameIdDTO("", serviceCommand.getOwnerId()));
+        return serviceDTO;
     }
 
     private ServiceCommand serviceCommandFromServiceDTO(ServiceDTO serviceDTO) {

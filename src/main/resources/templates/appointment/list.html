@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>Appointment list</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h3>Appointments</h3>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Service</th>
+                <th>User</th>
+                <th>Creation Date</th>
+                <th>Scheduled Date</th>
+                <th>State</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${appointments.isEmpty()}">
+                <td colspan="4">no services</td>
+            </tr>
+            <tr th:unless="${appointments.isEmpty()}" th:each="appointment : ${appointments}">
+                <td>[[${appointment.id}]]</td>
+                <td>
+                    <a th:href="${#mvc.url('SC#getDetails').arg(0, appointment.service.id).build()}">
+                        [[${appointment.service.name}]]
+                    </a>
+                </td>
+                <td>
+                    <a th:href="${#mvc.url('UC#getProfile').arg(0,appointment.user.id).build()}">
+                        [[${appointment.user.name}]]
+                    </a>
+                </td>
+                <td>
+                    [[${appointment.createdDate}]]
+                </td>
+                <td>
+                    [[${appointment.scheduledDate}]]
+                </td>
+                <td>
+                    [[${appointment.state}]]
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

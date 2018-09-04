@@ -1,10 +1,10 @@
 package com.app.office.appointment.domain;
 
 import com.app.office.appointment.api.enumeration.AppointmentState;
+import com.app.office.service.domain.Service;
 import com.app.office.shared.domain.EntityObject;
 import com.app.office.user.domain.User;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,13 +25,13 @@ public class Appointment extends EntityObject {
 
     @ManyToOne
     @JoinColumn(name = "service_id", insertable = false, updatable = false)
-    private User service;
+    private Service service;
 
-    @CreatedDate
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @LastModifiedDate
-    private Date lastModifiedDate;
+    private Date scheduledDate;
 
     @Enumerated(EnumType.STRING)
     private AppointmentState state;
@@ -56,7 +56,7 @@ public class Appointment extends EntityObject {
         this.serviceId = serviceId;
     }
 
-    public User getService() {
+    public Service getService() {
         return service;
     }
 
@@ -68,12 +68,12 @@ public class Appointment extends EntityObject {
         this.createdDate = createdDate;
     }
 
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
+    public Date getScheduledDate() {
+        return scheduledDate;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    public void setScheduledDate(Date scheduledDate) {
+        this.scheduledDate = scheduledDate;
     }
 
     public AppointmentState getState() {

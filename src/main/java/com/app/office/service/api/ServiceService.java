@@ -4,6 +4,7 @@ import com.app.office.service.api.dto.ServiceDTO;
 import com.app.office.service.api.dto.ServiceSearchDTO;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ServiceService {
     List<ServiceDTO> find(ServiceSearchDTO serviceSearchDTO);
@@ -13,4 +14,6 @@ public interface ServiceService {
     Long save(ServiceDTO serviceDTO);
 
     void delete(Long id);
+
+    Set<Long> findServiceIdsOfUserId(Long userId);
 }
