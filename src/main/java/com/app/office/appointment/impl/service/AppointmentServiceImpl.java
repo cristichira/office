@@ -1,19 +1,23 @@
 package com.app.office.appointment.impl.service;
 
 import com.app.office.appointment.api.AppointmentService;
+import com.app.office.appointment.api.dto.AppointmentChangeStateDTO;
 import com.app.office.appointment.api.dto.AppointmentDTO;
 import com.app.office.appointment.api.dto.AppointmentSearchDTO;
 import com.app.office.appointment.domain.Appointment;
 import com.app.office.appointment.impl.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentMapper appointmentMapper;
@@ -49,6 +53,17 @@ public class AppointmentServiceImpl implements AppointmentService {
             query = query.and(AppointmentSpecification.userId(appointmentSearchDTO.getUserId()));
         }
 
-        return appointmentRepository.findAll(query).stream().map(appointmentMapper::toDTO).collect(Collectors.toList());
+        final Sort sort = Sort.by("scheduledDate").ascending();
+
+        return appointmentRepository.findAll(query, sort).stream().map(appointmentMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long changeState(AppointmentChangeStateDTO appointmentChangeStateDTO) {
+        Appointment appointment = appointmentRepository.findById(appointmentChangeStateDTO.getAppointmentId())
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find appointment with id: " + appointmentChangeStateDTO.getAppointmentId()));
+        appointment.setState(appointmentChangeStateDTO.getState());
+        appointmentRepository.save(appointment);
+        return appointment.getService().getId();
     }
 }

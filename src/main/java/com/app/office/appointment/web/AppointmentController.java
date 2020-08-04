@@ -1,6 +1,7 @@
 package com.app.office.appointment.web;
 
 import com.app.office.appointment.api.AppointmentService;
+import com.app.office.appointment.api.dto.AppointmentChangeStateDTO;
 import com.app.office.appointment.api.dto.AppointmentDTO;
 import com.app.office.appointment.api.dto.AppointmentSearchDTO;
 import com.app.office.appointment.api.enumeration.AppointmentState;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +75,36 @@ public class AppointmentController {
         return "redirect:/appointment/scheduled";
     }
 
+    @PostMapping(BASE_URL + "/change-state/")
+    public String changeState(@Valid AppointmentChangeStateCommand appointmentChangeStateCommand) {
+        final AppointmentChangeStateDTO appointmentChangeStateDTO = appointmentChangeStateDTOFromAppointmentChangeStateCommand(appointmentChangeStateCommand);
+        final Long serviceId = appointmentService.changeState(appointmentChangeStateDTO);
+        return "redirect:/service/" + serviceId;
+    }
+
+    public static final class AppointmentChangeStateCommand {
+        @NotNull
+        private Long appointmentId;
+        @NotNull
+        private AppointmentState state;
+
+        public Long getAppointmentId() {
+            return appointmentId;
+        }
+
+        public void setAppointmentId(Long appointmentId) {
+            this.appointmentId = appointmentId;
+        }
+
+        public AppointmentState getState() {
+            return state;
+        }
+
+        public void setState(AppointmentState state) {
+            this.state = state;
+        }
+    }
+
     public static final class AppointmentCommand {
         private Long serviceId;
         private Date date;
@@ -101,5 +133,12 @@ public class AppointmentController {
         appointmentDTO.setUser(securityService.getCurrentUserAsNameIdDTO());
         appointmentDTO.setState(AppointmentState.PENDING);
         return appointmentDTO;
+    }
+
+    private AppointmentChangeStateDTO appointmentChangeStateDTOFromAppointmentChangeStateCommand(AppointmentChangeStateCommand appointmentChangeStateCommand) {
+        final AppointmentChangeStateDTO appointmentChangeStateDTO = new AppointmentChangeStateDTO();
+        appointmentChangeStateDTO.setAppointmentId(appointmentChangeStateCommand.getAppointmentId());
+        appointmentChangeStateDTO.setState(appointmentChangeStateCommand.getState());
+        return appointmentChangeStateDTO;
     }
 }

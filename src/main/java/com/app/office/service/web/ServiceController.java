@@ -1,5 +1,8 @@
 package com.app.office.service.web;
 
+import com.app.office.appointment.api.AppointmentService;
+import com.app.office.appointment.api.dto.AppointmentDTO;
+import com.app.office.appointment.api.dto.AppointmentSearchDTO;
 import com.app.office.service.api.ServiceService;
 import com.app.office.service.api.dto.ServiceDTO;
 import com.app.office.service.api.dto.ServiceSearchDTO;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -22,12 +26,15 @@ public class ServiceController {
 
     private final ServiceService serviceService;
     private final SecurityService securityService;
+    private final AppointmentService appointmentService;
 
     @Autowired
     public ServiceController(ServiceService serviceService,
-                             SecurityService securityService) {
+                             SecurityService securityService,
+                             AppointmentService appointmentService) {
         this.serviceService = serviceService;
         this.securityService = securityService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping(BASE_URL + "/list")
@@ -52,9 +59,14 @@ public class ServiceController {
 
     @GetMapping(BASE_URL + "/{id}")
     public ModelAndView getDetails(@PathVariable("id") Long serviceId, ModelAndView mav) {
-        ServiceDTO serviceDTO = serviceService.findById(serviceId);
+        final ServiceDTO serviceDTO = serviceService.findById(serviceId);
+
+        final AppointmentSearchDTO appointmentSearchDTO = new AppointmentSearchDTO();
+        appointmentSearchDTO.setServiceIds(Collections.singleton(serviceDTO.getId()));
+        final List<AppointmentDTO> appointments = appointmentService.find(appointmentSearchDTO);
 
         mav.addObject("service", serviceDTO);
+        mav.addObject("appointments", appointments);
         mav.setViewName("service/details");
         return mav;
     }

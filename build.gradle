@@ -53,6 +53,7 @@ dependencies {
 //	https://eonasdan.github.io/bootstrap-datetimepicker/ - datetimepicker documentation
     compile('org.webjars:bootstrap-datetimepicker:2.3.5')
 	compile("org.springframework.boot:spring-boot-devtools")
+	compile("org.javassist:javassist:3.23.1-GA")
 
     //testing
     testCompile('org.springframework.boot:spring-boot-starter-test')

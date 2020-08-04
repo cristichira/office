@@ -21,11 +21,12 @@
                 <th>Creation Date</th>
                 <th>Scheduled Date</th>
                 <th>State</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${appointments.isEmpty()}">
-                <td colspan="4">no services</td>
+                <td colspan="6">no appointments</td>
             </tr>
             <tr th:unless="${appointments.isEmpty()}" th:each="appointment : ${appointments}">
                 <td>[[${appointment.id}]]</td>
@@ -47,6 +48,15 @@
                 </td>
                 <td>
                     [[${appointment.state}]]
+                </td>
+                <td>
+                    <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).PENDING == appointment.state
+                            || T(com.app.office.appointment.api.enumeration.AppointmentState).CONFIRMED == appointment.state}"
+                          th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
+                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                        <input type="hidden" name="state" th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).CANCELED}">
+                        <button th:type="submit" class="btn btn-primary">Cancel</button>
+                    </form>
                 </td>
             </tr>
             </tbody>
