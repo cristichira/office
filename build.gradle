@@ -25,7 +25,7 @@ apply plugin: 'com.github.fgiannesini.libsass.gradle.plugin'
 
 group = 'com.app'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
 	mavenCentral()
@@ -40,7 +40,7 @@ dependencies {
     //mapstruct
     compile('org.mapstruct:mapstruct-jdk8:1.2.0.Final')
     compile('org.mapstruct:mapstruct-processor:1.2.0.Final')
-    apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+	annotationProcessor('org.mapstruct:mapstruct-processor:1.2.0.Final')
 
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')

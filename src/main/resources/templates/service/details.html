@@ -30,61 +30,66 @@
             Create appointment
         </a>
 
-        <h2>Appointments to my service</h2>
-        <table class="table table-striped mb-5">
-            <thead>
-            <tr>
-                <th>Scheduled Date</th>
-                <th>User</th>
-                <th>Creation Date</th>
-                <th>State</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${#arrays.isEmpty(appointments)}">
-                <td colspan="4">no pending appointments</td>
-            </tr>
-            <tr th:unless="${#arrays.isEmpty(appointments)}" th:each="appointment : ${appointments}">
-                <td>
-                    [[${appointment.scheduledDate}]]
-                </td>
-                <td>
-                    <a th:href="${#mvc.url('UC#getProfile').arg(0,appointment.user.id).build()}">
-                        [[${appointment.user.name}]]
-                    </a>
-                </td>
-                <td>
-                    [[${appointment.createdDate}]]
-                </td>
-                <td>
-                    [[${appointment.state}]]
-                </td>
-                <td class="form-inline">
-                    <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).CONFIRMED == appointment.state
+        <th:block th:if="${service.owner.id == currentUser.userId}">
+            <h2>Appointments to my service</h2>
+            <table class="table table-striped mb-5">
+                <thead>
+                <tr>
+                    <th>Scheduled Date</th>
+                    <th>User</th>
+                    <th>Creation Date</th>
+                    <th>State</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#arrays.isEmpty(appointments)}">
+                    <td colspan="4">no pending appointments</td>
+                </tr>
+                <tr th:unless="${#arrays.isEmpty(appointments)}" th:each="appointment : ${appointments}">
+                    <td>
+                        [[${appointment.scheduledDate}]]
+                    </td>
+                    <td>
+                        <a th:href="${#mvc.url('UC#getProfile').arg(0,appointment.user.id).build()}">
+                            [[${appointment.user.name}]]
+                        </a>
+                    </td>
+                    <td>
+                        [[${appointment.createdDate}]]
+                    </td>
+                    <td>
+                        [[${appointment.state}]]
+                    </td>
+                    <td class="form-inline">
+                        <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).CONFIRMED == appointment.state
                 && appointment.scheduledDate.before(#dates.createNow())}"
-                          th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
-                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                        <input type="hidden" name="state" th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).DONE}">
-                        <button th:type="submit" class="btn btn-primary">Set to Done</button>
-                    </form>
+                              th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
+                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                            <input type="hidden" name="state"
+                                   th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).DONE}">
+                            <button th:type="submit" class="btn btn-primary">Set to Done</button>
+                        </form>
 
-                    <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).PENDING == appointment.state}"
-                          th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
-                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                        <input type="hidden" name="state" th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).CONFIRMED}">
-                        <button th:type="submit" class="btn btn-primary">Confirm</button>
-                    </form>
-                    <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).PENDING == appointment.state}"
-                          class="ml-1" th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
-                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                        <input type="hidden" name="state" th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).DECLINED}">
-                        <button th:type="submit" class="btn btn-primary">Decline</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                        <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).PENDING == appointment.state}"
+                              th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
+                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                            <input type="hidden" name="state"
+                                   th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).CONFIRMED}">
+                            <button th:type="submit" class="btn btn-primary">Confirm</button>
+                        </form>
+                        <form th:if="${T(com.app.office.appointment.api.enumeration.AppointmentState).PENDING == appointment.state}"
+                              class="ml-1" th:action="${#mvc.url('AC#changeState').build()}" th:method="POST">
+                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                            <input type="hidden" name="state"
+                                   th:value="${T(com.app.office.appointment.api.enumeration.AppointmentState).DECLINED}">
+                            <button th:type="submit" class="btn btn-primary">Decline</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </th:block>
 
     </div>
 </div>
