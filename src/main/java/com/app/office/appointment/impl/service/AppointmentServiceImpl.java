@@ -53,7 +53,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             query = query.and(AppointmentSpecification.userId(appointmentSearchDTO.getUserId()));
         }
 
-        final Sort sort = Sort.by("scheduledDate").ascending();
+        final Sort sort = Sort.by(
+                Sort.Order.desc("state"),
+                Sort.Order.asc("scheduledDate"));
 
         return appointmentRepository.findAll(query, sort).stream().map(appointmentMapper::toDTO).collect(Collectors.toList());
     }
