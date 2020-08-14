@@ -4,6 +4,7 @@ import com.app.office.appointment.api.AppointmentService;
 import com.app.office.appointment.api.dto.AppointmentChangeStateDTO;
 import com.app.office.appointment.api.dto.AppointmentDTO;
 import com.app.office.appointment.api.dto.AppointmentSearchDTO;
+import com.app.office.appointment.api.enumeration.AppointmentStateComparator;
 import com.app.office.appointment.domain.Appointment;
 import com.app.office.appointment.impl.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,18 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Sort.Order.desc("state"),
                 Sort.Order.asc("scheduledDate"));
 
-        return appointmentRepository.findAll(query, sort).stream().map(appointmentMapper::toDTO).collect(Collectors.toList());
+        return appointmentRepository.findAll(query)
+                .stream()
+                .sorted((a1, a2) -> {
+                    AppointmentStateComparator appointmentStateComparator = new AppointmentStateComparator();
+                    int compare = appointmentStateComparator.compare(a1.getState(), a2.getState());
+                    if (compare == 0) {
+                        return a1.getScheduledDate().compareTo(a2.getScheduledDate());
+                    } else {
+                        return compare;
+                    }
+                })
+                .map(appointmentMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
