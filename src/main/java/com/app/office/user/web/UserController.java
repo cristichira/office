@@ -3,9 +3,11 @@ package com.app.office.user.web;
 import com.app.office.user.api.UserService;
 import com.app.office.user.api.dto.UserDTO;
 import com.app.office.user.api.enumeration.UserRole;
-import org.hibernate.validator.constraints.ScriptAssert;
+import com.app.office.user.validator.UserValidator;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,10 +24,13 @@ public class UserController {
     private static final String BASE_URL = "/user";
 
     private final UserService userService;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping(BASE_URL + "/list")
@@ -80,7 +86,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute(value = "user") UserCommand userCommand) {
+    public String register(@Valid @ModelAttribute(value = "user") UserCommand userCommand, BindingResult result) {
+        userValidator.validateRegister(userCommand, result);
+        if (result.hasErrors()) {
+            return "user/register";
+        }
+
         UserDTO userDTO = userDTOFromRegisterCommand(userCommand);
         userDTO.getRoles().add(UserRole.END_CUSTOMER);
 
@@ -90,11 +101,11 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @ScriptAssert(lang = "javascript", script = "_this.password == _this.passwordConfirm",
-            reportOn = "password")
-    private static final class UserCommand {
+    public static final class UserCommand {
         private Long id;
+        @Email
         private String email;
+        @Length(min = 6)
         private String password;
         private String passwordConfirm;
         private String firstName;

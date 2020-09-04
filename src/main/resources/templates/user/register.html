@@ -21,16 +21,23 @@
                         <label for="email">Email</label>
                         <input type="text" class="form-control" id="email" placeholder="email"
                                th:field="*{email}">
+                        <strong class="text-danger" th:if="${#fields.hasErrors('email')}"
+                                th:errors="*{email}"></strong>
                     </div>
                     <div class="form-group">
                         <label for="email">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="password"
                                th:field="*{password}">
+                        <strong class="text-danger" th:if="${#fields.hasErrors('password')}"
+                                th:errors="*{password}"></strong>
                     </div>
                     <div class="form-group">
                         <label for="passwordConfirm">Confirm password</label>
-                        <input type="password" class="form-control" id="passwordConfirm" placeholder="repeat the password"
+                        <input type="password" class="form-control" id="passwordConfirm"
+                               placeholder="repeat the password"
                                th:field="*{passwordConfirm}">
+                        <strong class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
+                                th:errors="*{passwordConfirm}"></strong>
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>
